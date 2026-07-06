@@ -3,31 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-/*
- * 2026-05-23: Replaced upstream's complex 8-layer keymap (custom homerow
- * mods, combos, conditional_layers, Win / Adjust / Navi / NumPad / Debug
- * layers) with a slim 4-layer default matching the day-to-day ZMK Studio
- * working state. Intent: a fresh flash or settings reset (cornix_reset.uf2)
- * should land close to actual usage, not the upstream author's untouched
- * setup.
- *
- * 2026-06-02: Re-synced the per-layer `bindings` to the live ZMK Studio
- * working state, captured via the keymap export from zmk-studio-tweaks
- * (Cornix-2026-06-02T14-47-56.keymap). Notable changes vs the 2026-05-23
- * default: Bluetooth keys consolidated onto the Symbols layer only (removed
- * from Number/Functions), the Base-layer right-pinky `!`/`?` dropped to
- * &none, and several JIS symbol slots on Number/Symbols remapped. After a
- * reset, a fresh flash now lands on this exact working state.
- *
- * ZMK Studio interaction:
- * - Studio overrides per-layer `bindings` via NVS at runtime; the
- * `bindings` here are the post-reset / pre-Studio-edit defaults.
- * - Studio does NOT cover `sensor-bindings` (encoders), combos,
- * behaviors, conditional_layers or macros — those keep being
- * controlled by this file at runtime regardless of Studio state.
- * The Studio export omits sensor-bindings, so they are preserved
- * here by hand.
- */
 
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 50
 
@@ -148,55 +123,77 @@
         };
     };
 
+
     keymap {
         compatible = "zmk,keymap";
 
-        Base {
+        default_layer {
             display-name = "Base";
             bindings = <
-&kp PRSC   &kp Q     &kp W     &kp E      &kp R        &kp T                                          &kp Y            &kp U     &kp I      &kp O     &kp P     &kp MINUS
-&kp CAPS   &kp A     &kp S     &kp D      &kp F        &kp G                                          &kp H            &kp J     &kp K      &kp L     &kp RET   &none
-&kp LSHFT  &kp Z     &kp X     &kp C      &kp V        &kp B            &none  &none  &kp N            &kp M     &kp COMMA  &kp DOT   &kp UP    &none
-&kp LCTL   &kp LGUI  &kp LALT  &lt 1 TAB  &lt 2 SPACE  &mt LSHFT LANGUAGE_2                           &mt RSHFT LANGUAGE_1 &kp BSPC  &mo 2      &kp LEFT  &kp DOWN  &kp RIGHT
+&lt 4 ESC         &kp Q  &kp W         &kp E       &kp R        &kp T                        &kp Y  &kp U        &kp I       &kp O     &kp P         &kp BACKSPACE
+&kp TAB           &kp A  &kp S         &kp D       &kp F        &kp G                        &kp H  &kp J        &kp K       &kp L     &kp SEMI      &kp ENTER
+&kp LEFT_SHIFT    &kp Z  &kp X         &kp C       &kp V        &kp B  &kp C_MUTE  &kp INT2  &kp N  &kp M        &kp COMMA   &kp DOT   &kp UP_ARROW  &kp SLASH
+&kp LEFT_CONTROL  &mo 5  &kp LEFT_ALT  &lt 3 INT5  &lt 1 SPACE  &mo 2                        &mo 2  &lt 1 SPACE  &lt 3 INT4  &kp LEFT  &kp DOWN      &kp RIGHT
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>, <&scrl_enc>;
         };
 
-        Symbols {
+        Num_layer {
+            display-name = "num";
+            bindings = <
+&trans  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5                  &kp N6  &kp N7    &kp N8    &kp N9     &kp N0  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &kp LEFT  &kp UP    &kp RIGHT  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans    &trans    &trans     &trans  &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>, <&scrl_enc>;
+        };
+
+        Symbol_layer {
             display-name = "Symbols";
             bindings = <
-&bt BT_CLR    &kp LS(N2)  &kp LS(N7)  &none       &none   &none                                  &kp LS(COMMA)  &kp LS(DOT)  &kp RBKT       &kp NON_US_HASH  &kp LS(N5)  &none
-&bt BT_SEL 0  &kp LBKT    &kp LS(N3)  &kp LS(N4)  &none   &none                                  &none          &none        &kp LS(RBKT)   &kp LS(NON_US_HASH)  &none       &none
-&bt BT_SEL 1  &none       &none       &none       &none   &none   &trans  &trans  &none          &none        &kp LS(N1)     &kp LS(FSLH)   &none       &none
-&bt BT_SEL 2  &none       &none       &none       &trans  &trans                                 &trans         &trans       &none          &none       &none       &none
+&trans  &kp EXCLAMATION  &kp JP_DQUOTE  &kp HASH   &kp DOLLAR   &kp PERCENT                   &kp JP_AMPERSAND  &kp JP_QUOTE  &kp JP_LPAREN    &kp JP_RPAREN    &kp MINUS         &kp JP_EQUAL
+&trans  &trans           &trans         &kp MINUS  &kp LS(DOT)  &kp DOT                       &kp JP_ASTERISK   &kp JP_TILDE  &kp JP_LBRACKET  &kp JP_RBRACKET  &kp SEMI          &kp JP_COLON
+&trans  &trans           &trans         &trans     &trans       &kp JP_COLON  &trans  &trans  &kp JP_PLUS       &kp JP_CARET  &kp JP_LBRACE    &kp JP_RBRACE    &kp JP_YEN        &kp JP_BSLH
+&trans  &trans           &trans         &trans     &trans       &trans                        &trans            &trans        &trans           &kp JP_AT        &kp JP_BACKQUOTE  &kp JP_UNDERSCORE
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>, <&scrl_enc>;
         };
 
-        Number {
-            display-name = "Number";
+        Function_layer {
+            display-name = "Func";
             bindings = <
-&none  &kp LS(SEMI)  &kp N7  &kp N8  &kp N9  &kp LS(SQT)                &none      &none     &kp UP    &none      &none          &none
-&none  &kp MINUS     &kp N4  &kp N5  &kp N6  &kp FSLH                   &none      &kp LEFT  &kp DOWN  &kp RIGHT  &kp LS(MINUS)  &none
-&none  &kp N0        &kp N1  &kp N2  &kp N3  &kp DOT      &none  &none  &none      &none     &none     &none      &none          &none
-&none  &none         &none   &none   &none   &none                      &kp RSHFT  &mo 3     &none     &none      &none          &none
+&trans  &kp F1      &kp F2      &kp F3      &kp F4      &kp F5                      &kp F6      &kp F7      &kp F8      &kp F9      &kp F10      &kp F11
+&trans  &kp LS(F1)  &kp LS(F2)  &kp LS(F3)  &kp LS(F4)  &kp LS(F5)                  &kp LS(F6)  &kp LS(F7)  &kp LS(F8)  &kp LS(F9)  &kp LS(F10)  &kp F12
+&trans  &kp LC(F1)  &kp LC(F2)  &kp LC(F3)  &kp LC(F4)  &kp LC(F5)  &trans  &trans  &kp LC(F6)  &kp LC(F7)  &kp LC(F8)  &kp LC(F9)  &kp LC(F10)  &trans
+&trans  &trans      &trans      &trans      &trans      &trans                      &trans      &trans      &trans      &trans      &trans       &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>, <&scrl_enc>;
         };
 
-        Functions {
-            display-name = "Functions";
+        BT_layer {
+            display-name = "BT";
             bindings = <
-&none  &none  &kp F7  &kp F8  &kp F9  &kp F12                &none  &none  &none  &none  &none  &none
-&none  &none  &kp F4  &kp F5  &kp F6  &kp F11                &none  &none  &none  &none  &none  &none
-&none  &none  &kp F1  &kp F2  &kp F3  &kp F10  &none  &none  &none  &none  &none  &none  &none  &none
-&none  &none  &none   &none   &none   &none                  &none  &none  &none  &none  &none  &none
+&trans          &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4                   &trans  &trans  &trans  &trans          &trans          &trans
+&bt BT_CLR      &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4                  &trans  &trans  &trans  &trans          &mkp MCLK       &trans
+&bt BT_CLR_ALL  &trans         &trans         &trans         &trans         &trans         &trans  &trans  &trans  &trans  &trans  &mkp LCLK       &mmv MOVE_UP    &mkp RCLK
+&trans          &trans         &trans         &trans         &trans         &trans                         &trans  &trans  &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>, <&scrl_enc>;
+        };
+
+        layer_5 {
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9
+&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3
+&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &kp KP_DOT       &kp KP_NUMBER_0  &kp ENTER
+            >;
         };
     };
 };
