@@ -1,0 +1,10 @@
+
+.env
+.direnv
+result
+.envrc
+.build
+target
+
+/firmware/*
+!/firmware/README.md
