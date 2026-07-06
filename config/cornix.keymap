@@ -68,9 +68,73 @@
     combos {
         compatible = "zmk,combos";
 
+        esc {
+            bindings = <&kp ESCAPE>;
+            key-positions = <0 1>;
+        };
+
+        minus {
+            bindings = <&kp MINUS>;
+            key-positions = <8 9>;
+        };
+
         alt_f4 {
             bindings = <&kp LA(F4)>;
             key-positions = <3 4 5>;
+        };
+
+        equal {
+            bindings = <&kp JP_EQUAL>;
+            key-positions = <9 10>;
+        };
+
+        tidle {
+            bindings = <&kp JP_TILDE>;
+            key-positions = <7 8>;
+        };
+
+        pipe {
+            bindings = <&kp JP_PIPE>;
+            key-positions = <18 32>;
+        };
+
+        underscore {
+            bindings = <&kp JP_UNDERSCORE>;
+            key-positions = <37 36>;
+        };
+
+        del {
+            bindings = <&kp DELETE>;
+            key-positions = <10 11>;
+        };
+
+        question {
+            bindings = <&kp QUESTION>;
+            key-positions = <6 7>;
+        };
+
+        pointerref {
+            bindings = <&pointer_macro>;
+            key-positions = <18 19>;
+        };
+
+        win {
+            bindings = <&kp LEFT_GUI>;
+            key-positions = <39 40>;
+        };
+
+        space {
+            bindings = <&kp SPACE>;
+            key-positions = <44 43>;
+        };
+    };
+
+    macros {
+        pointer_macro: new_macro {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp KP_MINUS &kp GT>;
+            label = "NEW_MACRO";
         };
     };
 
