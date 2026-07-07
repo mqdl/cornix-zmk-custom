@@ -79,8 +79,8 @@
             key-positions = <10 11>;
         };
 
-        question {
-            bindings = <&kp QUESTION>;
+        f7 {
+            bindings = <&kp F7>;
             key-positions = <6 7>;
         };
 
@@ -96,7 +96,7 @@
 
         space {
             bindings = <&kp SPACE>;
-            key-positions = <44 43>;
+            key-positions = <42 45>;
         };
     };
 
@@ -137,9 +137,9 @@
         Num_layer {
             display-name = "num";
             bindings = <
-&trans  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5                  &kp N6  &kp N7    &kp N8    &kp N9     &kp N0  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &kp LEFT  &kp UP    &kp RIGHT  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans
+&trans  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5                  &kp N6  &kp N7    &kp UP    &kp N8     &kp N9  &kp N0
+&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans     &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans    &trans    &trans     &trans  &trans
             >;
 
